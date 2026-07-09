@@ -48,10 +48,29 @@ components. Four text levels: `fg` / `fg-muted` / `fg-faint` + on-accent.
   not size alone. Dynamic numbers get `.tabular` (tabular-nums).
 - Loaded via `next/font` in `app/app/layout.tsx` (inter, geistMono, bricolage).
 
+## Signature language — the betting slip / ledger
+
+"On the record" is taken literally: the app looks like wagers written on ledger
+paper and torn off as betting slips. Four signature elements (globals.css):
+
+- **Ledger canvas** — a whisper-faint dot grid on `body`
+  (`radial-gradient` at `color-mix(fg 6%)`, 22px). Opaque `bg-surface` cards sit
+  on top, so the grid reads only in gutters/gaps. Never on top of content.
+- **`.stamp`** — rotated (-7°) outlined accent stamp ("On the record"), echoes the
+  lock-in ring. The hero's signature mark; use sparingly (1 per view max).
+- **`.perf`** — perforated hairline (repeating radial dots), the tear-off edge of
+  a slip. Used on MarketCard above the pot block and as dashed stub dividers.
+- **Slip №** — MarketCards + receipt carry a `font-mono` "Slip № 007" ticket
+  number so wager cards read as tickets, not exchange rows.
+
 ## Depth & layering
 
-- Surface-color shift + subtle shadow. Sidebar/header share the canvas bg with a
-  hairline border (`bg-bg/80` + `backdrop-blur`), not a different color.
+- **Layered "expensive" elevation** via `--shadow-card` / `--shadow-card-hover`
+  (1px ring + two soft depths in light; single ring on dark). `Card` uses it and
+  drops its border. Hover lifts `-translate-y-1` with an accent-tinted depth.
+- Card grids stagger in with `.rise` (`animationDelay` ~50ms × index, capped).
+- Sidebar/header share the canvas bg with a hairline border (`bg-bg/80` +
+  `backdrop-blur`), not a different color.
 - Borders are low-contrast token borders; dark mode leans on borders over shadow.
 - Radius scale: inputs/buttons `rounded-xl`, cards `rounded-2xl`, pills
   `rounded-full`. Concentric radii on nested elements.

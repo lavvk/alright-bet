@@ -95,10 +95,76 @@ body {
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* Ledger paper — a whisper-faint dot grid the whole app sits on. Opaque
+     surfaces (cards) sit on top, so the grid reads only in gutters and gaps. */
+  background-image: radial-gradient(
+    color-mix(in oklch, var(--fg) 6%, transparent) 1px,
+    transparent 1.4px
+  );
+  background-size: 22px 22px;
+  background-position: -1px -1px;
 }
 
 .tabular {
   font-variant-numeric: tabular-nums;
+}
+
+/* Layered "expensive" elevation — 1px ring + two soft depths (light);
+   collapses to a single ring on dark where depth shadows don't read. */
+:root {
+  --shadow-card: 0 0 0 1px color-mix(in oklch, var(--fg) 4%, transparent),
+    0 1px 2px -1px color-mix(in oklch, var(--fg) 8%, transparent),
+    0 6px 16px -6px color-mix(in oklch, var(--fg) 10%, transparent);
+  --shadow-card-hover: 0 0 0 1px color-mix(in oklch, var(--fg) 6%, transparent),
+    0 2px 4px -2px color-mix(in oklch, var(--fg) 10%, transparent),
+    0 12px 28px -8px color-mix(in oklch, var(--accent) 22%, transparent);
+}
+.dark {
+  --shadow-card: 0 0 0 1px color-mix(in oklch, white 8%, transparent);
+  --shadow-card-hover: 0 0 0 1px color-mix(in oklch, var(--accent) 40%, transparent);
+}
+
+/* Signature "On the record" stamp — a rotated, outlined accent mark that
+   echoes the lock-in ring. Notary/received-stamp energy. */
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  border: 2px solid color-mix(in oklch, var(--accent) 70%, transparent);
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  transform: rotate(-7deg);
+}
+
+/* Perforated hairline — the tear-off edge of a betting slip. */
+.perf {
+  background-image: radial-gradient(
+    circle at center,
+    var(--border) 0 1.4px,
+    transparent 1.6px
+  );
+  background-size: 10px 3px;
+  background-repeat: repeat-x;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 0.5s var(--ease-out-quart) both;
 }
 
 /* Bricolage Grotesque — display face for headlines, the wordmark, and hero
