@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useGroups } from "@/lib/group-context";
@@ -14,7 +14,7 @@ import { Button, LinkButton } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Icon } from "@/components/ui/icons";
 import { GroupAvatar } from "@/components/ui/GroupAvatar";
-import { CardSkeleton } from "@/components/ui/Skeleton";
+import { CardSkeleton, Skeleton } from "@/components/ui/Skeleton";
 import { truncateAddress } from "@/lib/utils";
 
 export default function GroupDetailPage() {
@@ -28,6 +28,18 @@ export default function GroupDetailPage() {
 
   const marketIds = group?.marketIds ?? [];
   const { markets, isLoading } = useMarkets(marketIds);
+
+  // Groups live in localStorage, unavailable during SSR. Gate on mount so the
+  // server and first client render agree (no hydration mismatch).
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) {
+    return (
+      <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+        <Skeleton className="h-40 w-full rounded-2xl" />
+      </div>
+    );
+  }
 
   if (!group) {
     return (
