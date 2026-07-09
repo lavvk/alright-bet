@@ -25,14 +25,14 @@ export function MarketCard({
           {groupName ? (
             <Badge tone="accent">{groupName}</Badge>
           ) : (
-            <Badge tone="accent">Group market</Badge>
+            <Badge tone="accent">Group bet</Badge>
           )}
           {market.resolved ? (
             <Badge tone={market.outcome ? "yes" : "no"}>
-              Resolved · {market.outcome ? "Yes" : "No"}
+              Settled · {market.outcome ? "Yes" : "No"}
             </Badge>
           ) : closed ? (
-            <Badge tone="warning">Awaiting resolution</Badge>
+            <Badge tone="warning">Awaiting call</Badge>
           ) : (
             <Badge tone="neutral">{timeLeft(market.resolveBy)}</Badge>
           )}
@@ -43,6 +43,13 @@ export function MarketCard({
         </h3>
 
         <div className="mt-auto pt-4">
+          <div className="perf mb-4 h-[3px]" />
+          <div className="mb-3 flex items-center justify-between">
+            <span className="font-mono text-[11px] uppercase tracking-wide text-fg-faint">
+              Slip № {String(market.id).padStart(3, "0")}
+            </span>
+            <span className="font-mono text-[11px] text-fg-faint">Base</span>
+          </div>
           <div className="flex items-end justify-between gap-3">
             <div>
               <p className="text-[11px] font-medium uppercase tracking-wide text-fg-faint">

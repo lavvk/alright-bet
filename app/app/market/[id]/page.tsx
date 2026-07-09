@@ -119,7 +119,7 @@ export default function MarketPage() {
               </div>
             </div>
             <ProbabilityBar yes={yes} empty={noVolume} className="mt-3 h-2" />
-            <div className="mt-4 grid grid-cols-3 gap-3 border-t border-border pt-4 text-center text-sm">
+            <div className="mt-4 grid grid-cols-3 gap-3 border-t border-dashed border-border pt-4 text-center text-sm">
               <Stat label="Total pot" value={`${formatEth(total)} ETH`} />
               <Stat label="Yes pool" value={`${formatEth(market.poolYes)}`} />
               <Stat label="No pool" value={`${formatEth(market.poolNo)}`} />

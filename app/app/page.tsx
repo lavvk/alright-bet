@@ -58,7 +58,14 @@ function SignedOutLanding() {
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6">
       {/* Hero */}
-      <section className="py-16 sm:py-24">
+      <section className="relative py-16 sm:py-24">
+        <span
+          className="stamp rise absolute right-2 top-20 hidden text-xs sm:flex"
+          aria-hidden
+        >
+          <Icon name="trophy" className="h-4 w-4" />
+          On the record
+        </span>
         <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-fg-muted">
           <span className="h-1.5 w-1.5 rounded-full bg-accent" />
           Group bets, settled on-chain
@@ -90,7 +97,11 @@ function SignedOutLanding() {
         </h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-3">
           {STEPS.map((s, i) => (
-            <div key={s.title} className="rounded-2xl border border-border bg-surface p-6">
+            <div
+              key={s.title}
+              className="rise rounded-2xl bg-surface p-6 shadow-[var(--shadow-card)]"
+              style={{ animationDelay: `${i * 70}ms` }}
+            >
               <div className="flex items-center gap-3">
                 <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent-soft text-accent-ink [&_svg]:h-5 [&_svg]:w-5">
                   <Icon name={s.icon} />
@@ -200,8 +211,14 @@ function CrewHome() {
           </CardGrid>
         ) : open.length > 0 ? (
           <CardGrid>
-            {open.map((m) => (
-              <MarketCard key={m.id} market={m} groupName={groupName.get(m.id)} />
+            {open.map((m, i) => (
+              <div
+                key={m.id}
+                className="rise"
+                style={{ animationDelay: `${Math.min(i, 8) * 55}ms` }}
+              >
+                <MarketCard market={m} groupName={groupName.get(m.id)} />
+              </div>
             ))}
           </CardGrid>
         ) : (
@@ -285,8 +302,12 @@ function TrendingStrip() {
         </div>
       ) : (
         <div className="-mx-4 mt-4 flex snap-x gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:px-0">
-          {items.map((m) => (
-            <div key={m.id} className="w-72 shrink-0 snap-start">
+          {items.map((m, i) => (
+            <div
+              key={m.id}
+              className="rise w-72 shrink-0 snap-start"
+              style={{ animationDelay: `${Math.min(i, 8) * 45}ms` }}
+            >
               <TrendingCard market={m} />
             </div>
           ))}
