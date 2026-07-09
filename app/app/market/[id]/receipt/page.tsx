@@ -20,7 +20,7 @@ import { ReceiptCard, type ReceiptData } from "@/components/ReceiptCard";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Icon } from "@/components/ui/icons";
-import { LinkButton } from "@/components/ui/Button";
+import { Button, LinkButton } from "@/components/ui/Button";
 
 async function loadReceipt(
   marketId: number,
@@ -82,10 +82,12 @@ export default function ReceiptPage() {
   const marketId = Number(id);
   const { address } = useAccount();
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, isFetching, refetch } = useQuery({
     queryKey: ["receipt", marketId, address],
     queryFn: () => loadReceipt(marketId, address),
     staleTime: 30_000,
+    retry: 2,
+    retryDelay: (i) => 500 * 2 ** i,
   });
 
   return (
@@ -96,7 +98,16 @@ export default function ReceiptPage() {
         <EmptyState
           icon={<Icon name="alert" />}
           title="Couldn't load the receipt"
-          description="Reading on-chain history failed. Try again in a moment."
+          description="The Base Sepolia RPC is slow or rate-limiting right now. Give it another shot."
+          action={
+            <Button
+              variant="secondary"
+              onClick={() => refetch()}
+              disabled={isFetching}
+            >
+              {isFetching ? "Retrying…" : "Try again"}
+            </Button>
+          }
         />
       ) : !data ? (
         <EmptyState
