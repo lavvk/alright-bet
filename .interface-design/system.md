@@ -5,6 +5,21 @@ called bet written down. Register: **product** (not marketing). The wager
 (question + big display odds + pot) is the loudest thing on every screen.
 
 Not: crypto-neon, generic SaaS, sportsbook, or sterile. No emoji anywhere.
+**Not an exchange.** This is a *betting group chat, on-chain* — framed around your
+crew, the pot, and the receipt, NOT a Polymarket-style global market exchange.
+
+## Information architecture (front door)
+
+- **Home (`/`) is group-first**, not a trending grid. Signed-out: bold "Alright,
+  bet." hero + 3-step "how it works" (Call it → Everyone picks a side → Pull the
+  receipt) + create/join CTA. Signed-in: "What's the bet?" banner with **Start a
+  bet**, "Bets on the table" (open bets across the user's crews), "Your crews".
+- **Trending (Polymarket) is demoted** to a horizontal-scroll "Steal a question
+  from the world" strip at the bottom — inspiration to run in your group, never
+  the main event. It is not a top-nav destination.
+- **Voice: bold & social.** Vocabulary is "bets/crew/pot/call it/who's in/pull
+  the receipt", not "markets/odds/volume". Market cards lead with **the pot**
+  (hero display ETH) + a "Leaning 63% Yes" tell, not an exchange %-split.
 
 ## Color — committed, OKLCH (hue 264 periwinkle)
 

@@ -43,19 +43,34 @@ export function MarketCard({
         </h3>
 
         <div className="mt-auto pt-4">
-          <div className="flex items-center justify-between text-sm font-semibold tabular">
-            <span className="text-yes">
-              {noVolume ? "—" : formatPercent(yes)} Yes
-            </span>
-            <span className="text-no">
-              {noVolume ? "—" : formatPercent(1 - yes)} No
-            </span>
+          <div className="flex items-end justify-between gap-3">
+            <div>
+              <p className="text-[11px] font-medium uppercase tracking-wide text-fg-faint">
+                In the pot
+              </p>
+              <p className="font-display text-2xl font-bold leading-none tabular">
+                {formatEth(total)}
+                <span className="ml-1 text-sm font-semibold text-fg-muted">
+                  ETH
+                </span>
+              </p>
+            </div>
+            <div className="text-right">
+              <p className="text-[11px] font-medium uppercase tracking-wide text-fg-faint">
+                Leaning
+              </p>
+              <p className="font-display text-base font-semibold tabular">
+                {noVolume ? (
+                  <span className="text-fg-muted">wide open</span>
+                ) : yes >= 0.5 ? (
+                  <span className="text-yes">{formatPercent(yes)} Yes</span>
+                ) : (
+                  <span className="text-no">{formatPercent(1 - yes)} No</span>
+                )}
+              </p>
+            </div>
           </div>
-          <ProbabilityBar yes={yes} empty={noVolume} className="mt-2" />
-          <div className="mt-3 flex items-center justify-between text-xs text-fg-muted tabular">
-            <span>{formatEth(total)} ETH pot</span>
-            <span>#{market.id}</span>
-          </div>
+          <ProbabilityBar yes={yes} empty={noVolume} className="mt-3" />
         </div>
       </Card>
     </Link>

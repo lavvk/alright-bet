@@ -9,7 +9,7 @@ import { TestnetBadge } from "@/components/ui/TestnetBadge";
 import { cn } from "@/lib/utils";
 
 const NAV = [
-  { href: "/", label: "Trending" },
+  { href: "/", label: "Home" },
   { href: "/groups", label: "My Groups" },
   { href: "/profile", label: "Profile" },
 ];
