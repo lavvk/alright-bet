@@ -1,0 +1,128 @@
+"use client";
+
+import { useMemo } from "react";
+import { useParams } from "next/navigation";
+import { useGroups } from "@/lib/group-context";
+import { groupStore, GROUP_TYPE_META } from "@/lib/groups";
+import { useMarkets } from "@/lib/hooks/reads";
+import { MarketCard } from "@/components/MarketCard";
+import { InviteButton } from "@/components/InviteButton";
+import { Card } from "@/components/ui/Card";
+import { Badge } from "@/components/ui/Badge";
+import { LinkButton } from "@/components/ui/Button";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { CardSkeleton } from "@/components/ui/Skeleton";
+import { truncateAddress } from "@/lib/utils";
+
+export default function GroupDetailPage() {
+  const { id } = useParams<{ id: string }>();
+  // Read reactively so membership/market changes reflect immediately.
+  const { myGroups } = useGroups();
+  const group = useMemo(
+    () => myGroups.find((g) => g.id === id) ?? groupStore.getGroup(id),
+    [myGroups, id],
+  );
+
+  const marketIds = group?.marketIds ?? [];
+  const { markets, isLoading } = useMarkets(marketIds);
+
+  if (!group) {
+    return (
+      <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+        <EmptyState
+          icon="🤔"
+          title="Group not found"
+          description="This group doesn't exist on this device, or you haven't joined it yet."
+          action={<LinkButton href="/groups">Back to groups</LinkButton>}
+        />
+      </div>
+    );
+  }
+
+  const active = markets.filter((m) => !m.resolved);
+  const resolved = markets.filter((m) => m.resolved);
+
+  return (
+    <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+      {/* Group header */}
+      <Card className="p-6">
+        <div className="flex flex-wrap items-start gap-4">
+          <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-surface-2 text-3xl">
+            {group.emoji}
+          </span>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2">
+              <h1 className="truncate text-2xl font-bold tracking-tight">
+                {group.name}
+              </h1>
+              <Badge tone="neutral">{GROUP_TYPE_META[group.type].label}</Badge>
+            </div>
+            <p className="mt-1 text-sm text-fg-muted">
+              {group.members.length} member
+              {group.members.length === 1 ? "" : "s"} · {marketIds.length}{" "}
+              market{marketIds.length === 1 ? "" : "s"}
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <InviteButton code={group.inviteCode} />
+            <LinkButton href={`/groups/${group.id}/new-market`}>
+              Create market
+            </LinkButton>
+          </div>
+        </div>
+
+        {/* Members */}
+        <div className="mt-5 flex flex-wrap gap-2 border-t border-border pt-5">
+          {group.members.map((m) => (
+            <span
+              key={m}
+              className="rounded-full bg-surface-2 px-2.5 py-1 font-mono text-xs text-fg-muted"
+            >
+              {truncateAddress(m)}
+            </span>
+          ))}
+        </div>
+      </Card>
+
+      {/* Markets */}
+      <section className="mt-8">
+        <h2 className="mb-3 text-lg font-semibold">Active markets</h2>
+        {isLoading && marketIds.length > 0 ? (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {marketIds.map((_, i) => (
+              <CardSkeleton key={i} />
+            ))}
+          </div>
+        ) : active.length > 0 ? (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {active.map((m) => (
+              <MarketCard key={m.id} market={m} groupName={group.name} />
+            ))}
+          </div>
+        ) : (
+          <EmptyState
+            icon="📈"
+            title="No active markets"
+            description="Kick things off — create your group's first prediction market."
+            action={
+              <LinkButton href={`/groups/${group.id}/new-market`}>
+                Create market
+              </LinkButton>
+            }
+          />
+        )}
+      </section>
+
+      {resolved.length > 0 && (
+        <section className="mt-10">
+          <h2 className="mb-3 text-lg font-semibold">Settled</h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {resolved.map((m) => (
+              <MarketCard key={m.id} market={m} groupName={group.name} />
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  );
+}
