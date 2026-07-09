@@ -41,8 +41,15 @@ export function StakeForm({
     success: "You're in — bet locked",
   });
 
+  // Signature "lock-in" stamp: replay the stamp animation on each success by
+  // bumping a key so the element remounts.
+  const [stamp, setStamp] = useState(0);
+
   useEffect(() => {
-    if (tx.isSuccess) onUpdated();
+    if (tx.isSuccess) {
+      onUpdated();
+      setStamp((s) => s + 1);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tx.isSuccess]);
 
@@ -137,9 +144,10 @@ export function StakeForm({
       {err && <p className="mt-1 text-xs text-no">{err}</p>}
 
       <Button
+        key={stamp}
         variant={side ? "yes" : "no"}
         size="lg"
-        className="mt-3 w-full"
+        className={cn("mt-3 w-full", stamp > 0 && "lock-in")}
         onClick={submit}
         disabled={!isConnected || tx.isSubmitting}
       >

@@ -11,6 +11,8 @@ import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { LinkButton } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { Icon } from "@/components/ui/icons";
+import { GroupAvatar } from "@/components/ui/GroupAvatar";
 import { CardSkeleton } from "@/components/ui/Skeleton";
 import { truncateAddress } from "@/lib/utils";
 
@@ -30,7 +32,7 @@ export default function GroupDetailPage() {
     return (
       <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
         <EmptyState
-          icon="🤔"
+          icon={<Icon name="question" />}
           title="Group not found"
           description="This group doesn't exist on this device, or you haven't joined it yet."
           action={<LinkButton href="/groups">Back to groups</LinkButton>}
@@ -47,12 +49,10 @@ export default function GroupDetailPage() {
       {/* Group header */}
       <Card className="p-6">
         <div className="flex flex-wrap items-start gap-4">
-          <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-surface-2 text-3xl">
-            {group.emoji}
-          </span>
+          <GroupAvatar name={group.name} size="lg" className="h-14 w-14 rounded-2xl text-base" />
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
-              <h1 className="truncate text-2xl font-bold tracking-tight">
+              <h1 className="truncate font-display text-2xl font-bold tracking-tight">
                 {group.name}
               </h1>
               <Badge tone="neutral">{GROUP_TYPE_META[group.type].label}</Badge>
@@ -101,7 +101,7 @@ export default function GroupDetailPage() {
           </div>
         ) : (
           <EmptyState
-            icon="📈"
+            icon={<Icon name="trend" />}
             title="No active markets"
             description="Kick things off — create your group's first prediction market."
             action={

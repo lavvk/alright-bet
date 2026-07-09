@@ -5,6 +5,7 @@ import { useGroups } from "@/lib/group-context";
 import { ConnectGate } from "@/components/ConnectGate";
 import { GroupCard } from "@/components/GroupCard";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { Icon } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/Button";
 
 export default function GroupsPage() {
@@ -12,7 +13,7 @@ export default function GroupsPage() {
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">My Groups</h1>
+          <h1 className="font-display text-2xl font-bold tracking-tight">My Groups</h1>
           <p className="mt-1 text-sm text-fg-muted">
             Your clubs, friend groups, and family pools.
           </p>
@@ -35,7 +36,7 @@ function GroupList() {
   if (myGroups.length === 0) {
     return (
       <EmptyState
-        icon="🎲"
+        icon={<Icon name="dice" />}
         title="No groups yet"
         description="Create a group for your club, friends, or family — or join one with an invite code."
         action={

@@ -38,7 +38,7 @@ export function MarketCard({
           )}
         </div>
 
-        <h3 className="mt-3 line-clamp-2 text-[15px] font-semibold leading-snug text-fg">
+        <h3 className="mt-3 line-clamp-2 font-display text-base font-semibold leading-snug tracking-tight text-fg">
           {market.question}
         </h3>
 

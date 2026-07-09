@@ -12,7 +12,9 @@ import { Toaster } from "sonner";
 import { config } from "@/lib/wagmi";
 import { GroupProvider } from "@/lib/group-context";
 
-const ACCENT = "#0f766e";
+// Periwinkle (hue 264) mirror of --accent for RainbowKit's modal chrome.
+const ACCENT_LIGHT = "#5b5bd6";
+const ACCENT_DARK = "#9b9cf0";
 
 export function Providers({ children }: { children: ReactNode }) {
   const [queryClient] = useState(
@@ -36,8 +38,8 @@ export function Providers({ children }: { children: ReactNode }) {
   }, []);
 
   const rkTheme = dark
-    ? darkTheme({ accentColor: "#2dd4bf", borderRadius: "medium" })
-    : lightTheme({ accentColor: ACCENT, borderRadius: "medium" });
+    ? darkTheme({ accentColor: ACCENT_DARK, borderRadius: "medium" })
+    : lightTheme({ accentColor: ACCENT_LIGHT, borderRadius: "medium" });
 
   return (
     <WagmiProvider config={config}>

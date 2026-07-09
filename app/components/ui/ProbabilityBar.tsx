@@ -1,8 +1,9 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Thin YES/NO probability bar. `yes` is a fraction 0..1.
- * When there's no volume yet, renders a neutral 50/50 placeholder.
+ * YES/NO probability bar. `yes` is a fraction 0..1.
+ * Fills animate via `transform: scaleX` (GPU-composited, never layout `width`).
+ * When there's no volume yet, renders a neutral placeholder.
  */
 export function ProbabilityBar({
   yes,
@@ -13,11 +14,11 @@ export function ProbabilityBar({
   empty?: boolean;
   className?: string;
 }) {
-  const pct = Math.max(0, Math.min(1, yes)) * 100;
+  const frac = Math.max(0, Math.min(1, yes));
   return (
     <div
       className={cn(
-        "flex h-1.5 w-full overflow-hidden rounded-full bg-surface-2",
+        "relative h-1.5 w-full overflow-hidden rounded-full bg-surface-2",
         className,
       )}
       role="presentation"
@@ -27,12 +28,12 @@ export function ProbabilityBar({
       ) : (
         <>
           <div
-            className="h-full bg-yes transition-all duration-500"
-            style={{ width: `${pct}%` }}
+            className="absolute inset-0 origin-left bg-yes transition-transform duration-500 ease-out"
+            style={{ transform: `scaleX(${frac})` }}
           />
           <div
-            className="h-full bg-no transition-all duration-500"
-            style={{ width: `${100 - pct}%` }}
+            className="absolute inset-0 origin-right bg-no transition-transform duration-500 ease-out"
+            style={{ transform: `scaleX(${1 - frac})` }}
           />
         </>
       )}

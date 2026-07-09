@@ -32,7 +32,7 @@ export function ClaimPanel({
 
   const tx = useContractTx({
     pending: "Claiming your winnings…",
-    success: "Winnings claimed 🎉",
+    success: "Winnings claimed",
   });
 
   useEffect(() => {

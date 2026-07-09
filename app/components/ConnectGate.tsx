@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { Icon } from "@/components/ui/icons";
 import { WalletButton } from "@/components/WalletButton";
 
 /**
@@ -27,7 +28,7 @@ export function ConnectGate({
   if (!isConnected) {
     return (
       <EmptyState
-        icon="👛"
+        icon={<Icon name="wallet" />}
         title={title}
         description={description}
         action={<WalletButton />}

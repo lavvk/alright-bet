@@ -22,7 +22,7 @@ export function Header() {
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-4 px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2 whitespace-nowrap">
           <Logo />
-          <span className="text-lg font-bold tracking-tight">
+          <span className="font-display text-lg font-bold tracking-tight">
             Alright<span className="text-accent">,</span> Bet
           </span>
         </Link>

@@ -6,6 +6,7 @@ import { TrendingCard } from "@/components/TrendingCard";
 import { CardSkeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Button } from "@/components/ui/Button";
+import { Icon } from "@/components/ui/icons";
 import { CATEGORIES, type Category, type TrendingMarket } from "@/lib/trending";
 import { cn } from "@/lib/utils";
 
@@ -35,7 +36,7 @@ export default function HomePage() {
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       {/* Hero */}
       <section className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+        <h1 className="display-hero text-4xl sm:text-5xl">
           Make predictions with friends.
         </h1>
         <p className="mt-2 max-w-xl text-base text-fg-muted">
@@ -72,7 +73,7 @@ export default function HomePage() {
 
       {isError && (
         <EmptyState
-          icon="📡"
+          icon={<Icon name="signal" />}
           title="Couldn't load trending markets"
           description="Polymarket's API might be busy. Give it another shot."
           action={
@@ -85,7 +86,7 @@ export default function HomePage() {
 
       {!isLoading && !isError && filtered.length === 0 && (
         <EmptyState
-          icon="🔍"
+          icon={<Icon name="search" />}
           title="Nothing here yet"
           description={`No trending ${category} markets right now. Try another category.`}
         />

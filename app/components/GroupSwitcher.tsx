@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
 import { useGroups } from "@/lib/group-context";
 import { Popover } from "@/components/ui/Popover";
+import { GroupAvatar } from "@/components/ui/GroupAvatar";
 import { cn } from "@/lib/utils";
 
 export function GroupSwitcher() {
@@ -25,9 +26,7 @@ export function GroupSwitcher() {
         >
           {activeGroup ? (
             <>
-              <span className="text-base leading-none">
-                {activeGroup.emoji}
-              </span>
+              <GroupAvatar name={activeGroup.name} size="sm" />
               <span className="max-w-[8rem] truncate">{activeGroup.name}</span>
             </>
           ) : (
@@ -55,7 +54,7 @@ export function GroupSwitcher() {
                     activeGroup?.id === g.id && "bg-surface-2",
                   )}
                 >
-                  <span className="text-base">{g.emoji}</span>
+                  <GroupAvatar name={g.name} size="sm" />
                   <span className="flex-1 truncate font-medium">{g.name}</span>
                   <span className="text-xs text-fg-faint">
                     {g.members.length} member{g.members.length === 1 ? "" : "s"}
