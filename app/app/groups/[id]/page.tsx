@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo } from "react";
-import { useParams } from "next/navigation";
+import { useMemo, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { useGroups } from "@/lib/group-context";
 import { groupStore, GROUP_TYPE_META } from "@/lib/groups";
 import { useMarkets } from "@/lib/hooks/reads";
@@ -9,7 +10,7 @@ import { MarketCard } from "@/components/MarketCard";
 import { InviteButton } from "@/components/InviteButton";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
-import { LinkButton } from "@/components/ui/Button";
+import { Button, LinkButton } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Icon } from "@/components/ui/icons";
 import { GroupAvatar } from "@/components/ui/GroupAvatar";
@@ -72,7 +73,7 @@ export default function GroupDetailPage() {
         </div>
 
         {/* Members */}
-        <div className="mt-5 flex flex-wrap gap-2 border-t border-border pt-5">
+        <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-border pt-5">
           {group.members.map((m) => (
             <span
               key={m}
@@ -81,6 +82,7 @@ export default function GroupDetailPage() {
               {truncateAddress(m)}
             </span>
           ))}
+          <DeleteGroupButton groupId={group.id} groupName={group.name} />
         </div>
       </Card>
 
@@ -123,6 +125,55 @@ export default function GroupDetailPage() {
           </div>
         </section>
       )}
+    </div>
+  );
+}
+
+/**
+ * Deletes a group locally (localStorage). Two-step inline confirm so a stray
+ * click can't wipe a crew. On-chain markets are unaffected.
+ */
+function DeleteGroupButton({
+  groupId,
+  groupName,
+}: {
+  groupId: string;
+  groupName: string;
+}) {
+  const router = useRouter();
+  const { refresh, activeGroup, setActiveGroupId } = useGroups();
+  const [confirming, setConfirming] = useState(false);
+
+  function remove() {
+    groupStore.deleteGroup(groupId);
+    if (activeGroup?.id === groupId) setActiveGroupId(null);
+    refresh();
+    toast.success(`Deleted "${groupName}"`);
+    router.push("/groups");
+  }
+
+  if (!confirming) {
+    return (
+      <button
+        type="button"
+        onClick={() => setConfirming(true)}
+        className="ml-auto inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-medium text-fg-faint transition-colors hover:bg-no-soft hover:text-no"
+      >
+        <Icon name="alert" className="h-3.5 w-3.5" />
+        Delete group
+      </button>
+    );
+  }
+
+  return (
+    <div className="ml-auto flex items-center gap-2">
+      <span className="text-xs text-fg-muted">Delete this group?</span>
+      <Button variant="danger" size="sm" onClick={remove}>
+        Delete
+      </Button>
+      <Button variant="ghost" size="sm" onClick={() => setConfirming(false)}>
+        Cancel
+      </Button>
     </div>
   );
 }

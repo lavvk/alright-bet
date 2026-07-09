@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter, Geist_Mono, Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
@@ -38,10 +39,10 @@ export default function RootLayout({
       className={`${inter.variable} ${geistMono.variable} ${bricolage.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-      </head>
       <body className="flex min-h-full flex-col bg-bg text-fg">
+        <Script id="theme-init" strategy="beforeInteractive">
+          {themeInitScript}
+        </Script>
         <Providers>
           <Header />
           <main className="flex-1">{children}</main>

@@ -39,6 +39,8 @@ export interface GroupStore {
   createGroup(input: CreateGroupInput): Group;
   joinGroup(code: string, member: Address): Group | undefined;
   addMarketToGroup(groupId: string, marketId: number): void;
+  /** Remove a group locally. On-chain markets are unaffected. */
+  deleteGroup(id: string): void;
 }
 
 const STORAGE_KEY = "ab:groups";
@@ -143,6 +145,12 @@ class LocalStorageGroupStore implements GroupStore {
     if (!groups[idx].marketIds.includes(marketId))
       groups[idx].marketIds.push(marketId);
     writeAll(groups);
+  }
+
+  deleteGroup(id: string): void {
+    const groups = readAll();
+    const next = groups.filter((g) => g.id !== id);
+    if (next.length !== groups.length) writeAll(next);
   }
 }
 
