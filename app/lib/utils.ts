@@ -58,19 +58,6 @@ export function timeLeft(resolveBySeconds: bigint | number): string {
   return `${months}mo left`;
 }
 
-/** Absolute date label, e.g. "Jul 20, 2026". */
-export function formatDate(input: bigint | number | Date): string {
-  const date =
-    input instanceof Date
-      ? input
-      : new Date(Number(input) * (typeof input === "bigint" ? 1000 : 1));
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
-
 /** Full date + time. */
 export function formatDateTime(input: bigint | number): string {
   const date = new Date(Number(input) * 1000);
