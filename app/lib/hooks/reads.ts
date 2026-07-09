@@ -15,15 +15,6 @@ type MarketTuple = readonly [
   bigint,
 ];
 
-/** Total number of markets ever created (also the next market id). */
-export function useMarketCount() {
-  const { data, ...rest } = useReadContract({
-    ...alrightBet,
-    functionName: "marketCount",
-  });
-  return { count: data ? Number(data) : 0, ...rest };
-}
-
 /** A single market by id. */
 export function useMarket(id: number | undefined) {
   const { data, ...rest } = useReadContract({
