@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  Recovered from the compiled build (source maps did not embed globals.css).
+  Token values are reconstructed from app/.next compiled CSS. This is the
+  pre-"On the record" palette (cobalt-blue accent, not the periwinkle OKLCH
+  identity in the design memory).
+*/
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-subtle: var(--bg-subtle);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-faint: var(--fg-faint);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+  --color-yes: var(--yes);
+  --color-yes-soft: var(--yes-soft);
+  --color-no: var(--no);
+  --color-no-soft: var(--no-soft);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-inter), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  --bg: #fafcff;
+  --bg-subtle: #f5f7fb;
+  --surface: #fcfdff;
+  --surface-2: #f2f4f9;
+  --border: #e2e5ea;
+  --border-strong: #d0d4dc;
+  --fg: #131822;
+  --fg-muted: #565c69;
+  --fg-faint: #7b808b;
+  --accent: #3567de;
+  --accent-hover: #2253cf;
+  --accent-soft: #e8f0ff;
+  --accent-ink: #153a99;
+  --yes: #00893c;
+  --yes-soft: #e0fae4;
+  --no: #d01d21;
+  --no-soft: #ffedeb;
+  --ring: #3567de66;
+}
+
+.dark {
+  --bg: #0c0f16;
+  --bg-subtle: #12161e;
+  --surface: #171c25;
+  --surface-2: #1d232e;
+  --border: #2d333e;
+  --border-strong: #414855;
+  --fg: #eff2f7;
+  --fg-muted: #9ea5b2;
+  --fg-faint: #6e7582;
+  --accent: #7da8ff;
+  --accent-hover: #a4c4ff;
+  --accent-soft: #1b2e58;
+  --accent-ink: #c1d8ff;
+  --yes: #4fce74;
+  --yes-soft: #0d371a;
+  --no: #ff655a;
+  --no-soft: #521613;
+  --ring: #7da8ff80;
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.display-hero {
+  font-family: var(--font-display);
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+  font-weight: 700;
+  line-height: 1.02;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton {
+  background: var(--surface-2);
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton::after {
+  content: "";
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  animation: shimmer 1.4s infinite;
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+}
+
+.dark .skeleton::after {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+}
+
+@keyframes lock-in {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(0.97);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes lock-in-ring {
+  0% {
+    box-shadow: 0 0 0 0 var(--ring);
+  }
+  100% {
+    box-shadow: 0 0 0 14px rgba(53, 103, 222, 0);
+  }
+}
+
+.lock-in {
+  animation:
+    lock-in 0.5s var(--ease-out-expo),
+    lock-in-ring 0.7s var(--ease-out-quart);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
