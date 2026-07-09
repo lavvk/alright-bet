@@ -108,15 +108,6 @@ export interface ClaimLog {
   txHash: `0x${string}`;
 }
 
-export interface CreatedLog {
-  marketId: number;
-  creator: Address;
-  question: string;
-  resolveBy: bigint;
-  resolver: Address;
-  txHash: `0x${string}`;
-}
-
 /** All bets on a single market. */
 export async function getBetsForMarket(marketId: number): Promise<BetLog[]> {
   const logs = await scan("BetPlaced", { marketId: BigInt(marketId) });
@@ -152,23 +143,6 @@ export async function getClaimsForUser(user: Address): Promise<ClaimLog[]> {
     amount: l.args.amount as bigint,
     txHash: l.transactionHash,
   }));
-}
-
-/** The MarketCreated event for one market (carries creator + tx). */
-export async function getMarketCreated(
-  marketId: number,
-): Promise<CreatedLog | null> {
-  const logs = await scan("MarketCreated", { marketId: BigInt(marketId) });
-  const l = logs[0];
-  if (!l) return null;
-  return {
-    marketId,
-    creator: l.args.creator as Address,
-    question: l.args.question as string,
-    resolveBy: l.args.resolveBy as bigint,
-    resolver: l.args.resolver as Address,
-    txHash: l.transactionHash,
-  };
 }
 
 /** The resolve transaction hash for a market, if resolved. */
