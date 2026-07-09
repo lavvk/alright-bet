@@ -17,7 +17,10 @@ export type IconName =
   | "clock"
   | "sparkle"
   | "link"
-  | "trophy";
+  | "trophy"
+  | "users"
+  | "receipt"
+  | "arrowRight";
 
 const paths: Record<IconName, React.ReactNode> = {
   search: (
@@ -99,6 +102,25 @@ const paths: Record<IconName, React.ReactNode> = {
       <path d="M7 4.5h10V9a5 5 0 0 1-10 0V4.5Z" />
       <path d="M7 6H4.5a2.5 2.5 0 0 0 2.5 2.5M17 6h2.5A2.5 2.5 0 0 1 17 8.5" />
       <path d="M12 14v3.5M9 20h6M9.5 20l.5-2.5h4l.5 2.5" />
+    </>
+  ),
+  users: (
+    <>
+      <circle cx="9" cy="8.5" r="3" />
+      <path d="M3.5 19a5.5 5.5 0 0 1 11 0" />
+      <path d="M16 6a3 3 0 0 1 0 6M17.5 19a5.5 5.5 0 0 0-3-4.9" />
+    </>
+  ),
+  receipt: (
+    <>
+      <path d="M6 3.5h12v17l-2.2-1.4-2.3 1.4-2.2-1.4-2.3 1.4-2.2-1.4L6 20.5V3.5Z" />
+      <path d="M9 8h6M9 12h6M9 15.5h3.5" />
+    </>
+  ),
+  arrowRight: (
+    <>
+      <path d="M4 12h15" />
+      <path d="m13 6 6 6-6 6" />
     </>
   ),
 };
