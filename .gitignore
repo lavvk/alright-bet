@@ -6,7 +6,14 @@ out/
 # Foundry / Solidity artifacts
 cache/
 out/
+
+# env / secrets
 .env
+.env.local
+.env*.local
+
+# typescript build info
+*.tsbuildinfo
 
 # design notes (local only)
 .interface-design/
