@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/Badge";
 import { GroupCard } from "@/components/GroupCard";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Icon } from "@/components/ui/icons";
+import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { formatEth, truncateAddress } from "@/lib/utils";
 
@@ -76,11 +77,13 @@ function ProfileBody() {
   const { address } = useAccount();
   const { myGroups } = useGroups();
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, isFetching, refetch } = useQuery({
     queryKey: ["profile", address],
     queryFn: () => loadProfile(address as Address),
     enabled: !!address,
     staleTime: 30_000,
+    retry: 2,
+    retryDelay: (i) => 500 * 2 ** i,
   });
 
   return (
@@ -102,11 +105,24 @@ function ProfileBody() {
       {isLoading ? (
         <Skeleton className="h-24 w-full rounded-2xl" />
       ) : isError ? (
-        <p className="text-sm text-fg-muted">Couldn&apos;t read your history.</p>
+        <EmptyState
+          icon={<Icon name="signal" />}
+          title="Couldn't read your history"
+          description="The Base Sepolia RPC is slow or rate-limiting right now. Your on-chain record is safe — give it another shot."
+          action={
+            <Button
+              variant="secondary"
+              onClick={() => refetch()}
+              disabled={isFetching}
+            >
+              {isFetching ? "Retrying…" : "Try again"}
+            </Button>
+          }
+        />
       ) : data ? (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <StatCard label="Groups" value={myGroups.length} />
-          <StatCard label="Markets" value={data.participated.length} />
+          <StatCard label="Crews" value={myGroups.length} />
+          <StatCard label="Bets" value={data.participated.length} />
           <StatCard label="Wins" value={data.wins} tone="yes" />
           <StatCard label="Losses" value={data.losses} tone="no" />
         </div>

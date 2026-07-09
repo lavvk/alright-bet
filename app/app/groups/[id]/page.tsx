@@ -67,7 +67,7 @@ export default function GroupDetailPage() {
           <div className="flex gap-2">
             <InviteButton code={group.inviteCode} />
             <LinkButton href={`/groups/${group.id}/new-market`}>
-              Create market
+              Call a bet
             </LinkButton>
           </div>
         </div>
@@ -88,7 +88,7 @@ export default function GroupDetailPage() {
 
       {/* Markets */}
       <section className="mt-8">
-        <h2 className="mb-3 text-lg font-semibold">Active markets</h2>
+        <h2 className="mb-3 font-display text-lg font-semibold">Open bets</h2>
         {isLoading && marketIds.length > 0 ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {marketIds.map((_, i) => (
@@ -104,11 +104,11 @@ export default function GroupDetailPage() {
         ) : (
           <EmptyState
             icon={<Icon name="trend" />}
-            title="No active markets"
-            description="Kick things off — create your group's first prediction market."
+            title="No open bets"
+            description="Kick things off — call your crew's first bet."
             action={
               <LinkButton href={`/groups/${group.id}/new-market`}>
-                Create market
+                Call a bet
               </LinkButton>
             }
           />
@@ -117,7 +117,7 @@ export default function GroupDetailPage() {
 
       {resolved.length > 0 && (
         <section className="mt-10">
-          <h2 className="mb-3 text-lg font-semibold">Settled</h2>
+          <h2 className="mb-3 font-display text-lg font-semibold">Settled</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {resolved.map((m) => (
               <MarketCard key={m.id} market={m} groupName={group.name} />

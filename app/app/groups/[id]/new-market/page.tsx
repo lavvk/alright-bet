@@ -47,12 +47,15 @@ export default function NewMarketPage() {
   const { id } = useParams<{ id: string }>();
   return (
     <div className="mx-auto max-w-lg px-4 py-10 sm:px-6">
-      <h1 className="text-2xl font-bold tracking-tight">Create a market</h1>
+      <h1 className="font-display text-2xl font-bold tracking-tight">
+        Call a bet
+      </h1>
       <p className="mt-1 text-sm text-fg-muted">
-        A yes/no question your group bets on with testnet ETH.
+        Put a yes/no question on the record. Your crew pools testnet ETH on a
+        side, and the resolver settles it.
       </p>
       <div className="mt-8">
-        <ConnectGate description="Connect a wallet to create a market.">
+        <ConnectGate description="Connect a wallet to call a bet.">
           <NewMarketForm groupId={id} />
         </ConnectGate>
       </div>
@@ -86,8 +89,8 @@ function NewMarketForm({ groupId }: { groupId: string }) {
   }, [address, setValue]);
 
   const tx = useContractTx({
-    pending: "Creating your market…",
-    success: "Market created — let the bets begin",
+    pending: "Putting it on the record…",
+    success: "Bet's on — let your crew pick a side",
   });
 
   // After confirmation, pull the new marketId from the event and record it.
@@ -171,11 +174,11 @@ function NewMarketForm({ groupId }: { groupId: string }) {
           {tx.isPending
             ? "Confirm in wallet…"
             : tx.isConfirming
-              ? "Creating…"
-              : "Create market"}
+              ? "Calling it…"
+              : "Call the bet"}
         </Button>
         <p className="text-center text-xs text-fg-faint">
-          Creating a market is a free on-chain transaction (testnet gas only).
+          Calling a bet is a free on-chain transaction (testnet gas only).
         </p>
       </Card>
     </form>
