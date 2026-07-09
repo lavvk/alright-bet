@@ -19,6 +19,7 @@ import {
 import { ReceiptCard, type ReceiptData } from "@/components/ReceiptCard";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { Icon } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/Button";
 
 async function loadReceipt(
@@ -69,7 +70,6 @@ async function loadReceipt(
   return {
     market,
     groupName: group?.name,
-    groupEmoji: group?.emoji,
     resolveTx,
     winners,
     totalPot,
@@ -94,13 +94,13 @@ export default function ReceiptPage() {
         <Skeleton className="h-[28rem] w-full rounded-2xl" />
       ) : isError ? (
         <EmptyState
-          icon="⚠️"
+          icon={<Icon name="alert" />}
           title="Couldn't load the receipt"
           description="Reading on-chain history failed. Try again in a moment."
         />
       ) : !data ? (
         <EmptyState
-          icon="⏳"
+          icon={<Icon name="clock" />}
           title="No receipt yet"
           description="This market hasn't been resolved. Come back once it's settled."
           action={

@@ -11,6 +11,8 @@ import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button, LinkButton } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { Icon } from "@/components/ui/icons";
+import { GroupAvatar } from "@/components/ui/GroupAvatar";
 
 export default function JoinPage() {
   const { code } = useParams<{ code: string }>();
@@ -44,18 +46,20 @@ export default function JoinPage() {
     <div className="mx-auto max-w-lg px-4 py-12 sm:px-6">
       {!group ? (
         <EmptyState
-          icon="🔗"
+          icon={<Icon name="link" />}
           title="Invite not found"
           description={`No group matches the code "${code}". Double-check the link or ask for a new one.`}
           action={<LinkButton href="/groups">Go to my groups</LinkButton>}
         />
       ) : (
         <Card className="p-8 text-center">
-          <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-surface-2 text-4xl">
-            {group.emoji}
-          </span>
+          <GroupAvatar
+            name={group.name}
+            size="lg"
+            className="mx-auto h-16 w-16 rounded-2xl text-lg"
+          />
           <p className="mt-4 text-sm text-fg-muted">You&apos;re invited to</p>
-          <h1 className="mt-1 text-2xl font-bold tracking-tight">
+          <h1 className="mt-1 display-hero text-2xl">
             {group.name}
           </h1>
           <div className="mt-3 flex items-center justify-center gap-2">

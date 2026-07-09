@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { ConnectGate } from "@/components/ConnectGate";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { GroupAvatar } from "@/components/ui/GroupAvatar";
 import {
   groupStore,
   GROUP_TYPE_META,
@@ -15,12 +16,10 @@ import {
 import { useGroups } from "@/lib/group-context";
 import { cn } from "@/lib/utils";
 
-const EMOJI = ["🎲", "🏈", "🎓", "🍿", "🚀", "🔥", "💸", "🏆", "🎯", "🥂", "👑", "🃏"];
-
 export default function NewGroupPage() {
   return (
     <div className="mx-auto max-w-lg px-4 py-10 sm:px-6">
-      <h1 className="text-2xl font-bold tracking-tight">Create a group</h1>
+      <h1 className="font-display text-2xl font-bold tracking-tight">Create a group</h1>
       <p className="mt-1 text-sm text-fg-muted">
         Spin up a private space for your crew to make markets.
       </p>
@@ -42,7 +41,6 @@ function CreateGroupForm() {
 
   const [name, setName] = useState("");
   const [type, setType] = useState<GroupType>("friends");
-  const [emoji, setEmoji] = useState(EMOJI[0]);
   const [error, setError] = useState<string | null>(null);
 
   function submit(e: React.FormEvent) {
@@ -55,7 +53,6 @@ function CreateGroupForm() {
     const group = groupStore.createGroup({
       name,
       type,
-      emoji,
       creator: address,
     });
     refresh();
@@ -77,17 +74,23 @@ function CreateGroupForm() {
     <form onSubmit={submit}>
       <Card className="space-y-6 p-6">
         <Field label="Group name">
-          <input
-            autoFocus
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-              setError(null);
-            }}
-            placeholder="e.g. Econ Club, The Roommates, Smith Family"
-            maxLength={40}
-            className="w-full rounded-xl border border-border bg-bg px-3.5 py-2.5 text-sm outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-[var(--ring)]"
-          />
+          <div className="flex items-center gap-3">
+            <GroupAvatar name={name || "?"} size="lg" />
+            <input
+              autoFocus
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+                setError(null);
+              }}
+              placeholder="e.g. Econ Club, The Roommates, Smith Family"
+              maxLength={40}
+              className="w-full rounded-xl border border-border bg-bg px-3.5 py-2.5 text-sm outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-[var(--ring)]"
+            />
+          </div>
+          <p className="mt-1.5 text-xs text-fg-faint">
+            Your group gets a monogram from its name.
+          </p>
         </Field>
 
         <Field label="Type">
@@ -105,26 +108,6 @@ function CreateGroupForm() {
                 )}
               >
                 {GROUP_TYPE_META[t].label}
-              </button>
-            ))}
-          </div>
-        </Field>
-
-        <Field label="Pick an emoji">
-          <div className="flex flex-wrap gap-2">
-            {EMOJI.map((e) => (
-              <button
-                key={e}
-                type="button"
-                onClick={() => setEmoji(e)}
-                className={cn(
-                  "flex h-11 w-11 items-center justify-center rounded-xl border text-xl transition-colors",
-                  emoji === e
-                    ? "border-accent bg-accent-soft"
-                    : "border-border bg-surface hover:border-border-strong",
-                )}
-              >
-                {e}
               </button>
             ))}
           </div>

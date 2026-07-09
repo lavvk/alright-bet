@@ -10,7 +10,6 @@ const BASESCAN = "https://sepolia.basescan.org/tx/";
 export interface ReceiptData {
   market: Market;
   groupName?: string;
-  groupEmoji?: string;
   resolveTx: `0x${string}` | null;
   winners: { bettor: Address; stake: bigint; payout: bigint }[];
   totalPot: bigint;
@@ -24,23 +23,22 @@ export interface ReceiptData {
 
 /** Signature shareable receipt for a resolved market. */
 export function ReceiptCard({ data }: { data: ReceiptData }) {
-  const { market, groupName, groupEmoji, winners, totalPot, resolveTx, you } =
-    data;
+  const { market, groupName, winners, totalPot, resolveTx, you } = data;
 
   return (
     <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-lg">
       {/* Header band */}
       <div className="relative bg-accent px-6 py-5 text-white">
         <div className="flex items-center justify-between">
-          <span className="text-sm font-bold tracking-tight">
+          <span className="font-display text-sm font-bold tracking-tight">
             Alright<span className="opacity-60">,</span> Bet
           </span>
           <span className="text-xs opacity-80">Receipt · #{market.id}</span>
         </div>
         <p className="mt-3 text-xs uppercase tracking-wider opacity-80">
-          {groupEmoji} {groupName ?? "Group market"}
+          {groupName ?? "Group market"}
         </p>
-        <h2 className="mt-1 text-lg font-bold leading-snug">
+        <h2 className="mt-1 font-display text-lg font-bold leading-snug">
           {market.question}
         </h2>
       </div>
@@ -51,7 +49,7 @@ export function ReceiptCard({ data }: { data: ReceiptData }) {
           Final outcome
         </p>
         <p
-          className={`mt-1 text-4xl font-extrabold ${
+          className={`mt-1 font-display text-4xl font-extrabold tracking-tight ${
             market.outcome ? "text-yes" : "text-no"
           }`}
         >
@@ -71,7 +69,7 @@ export function ReceiptCard({ data }: { data: ReceiptData }) {
               you.won ? "text-yes" : "text-no"
             }`}
           >
-            {you.won ? "You called it 🎉" : "Missed this one"}
+            {you.won ? "You called it" : "Missed this one"}
           </p>
           <div className="mt-2 flex justify-center gap-6 text-sm">
             <span>

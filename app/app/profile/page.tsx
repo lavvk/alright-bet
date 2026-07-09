@@ -13,6 +13,7 @@ import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { GroupCard } from "@/components/GroupCard";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { Icon } from "@/components/ui/icons";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { formatEth, truncateAddress } from "@/lib/utils";
 
@@ -61,7 +62,7 @@ async function loadProfile(address: Address): Promise<ProfileData> {
 export default function ProfilePage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-      <h1 className="text-2xl font-bold tracking-tight">Profile</h1>
+      <h1 className="font-display text-2xl font-bold tracking-tight">Profile</h1>
       <div className="mt-8">
         <ConnectGate description="Connect to see your betting record.">
           <ProfileBody />
@@ -164,7 +165,7 @@ function ProfileBody() {
 
       {data && data.participated.length === 0 && (
         <EmptyState
-          icon="🎯"
+          icon={<Icon name="target" />}
           title="No bets yet"
           description="Join a group and lock in your first prediction."
         />

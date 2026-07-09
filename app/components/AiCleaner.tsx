@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/Button";
+import { Icon } from "@/components/ui/icons";
 
 export interface CleanResult {
   question: string;
@@ -73,7 +74,7 @@ export function AiCleaner({
         onClick={() => setOpen(true)}
         className="inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline"
       >
-        ✨ Clean up with AI
+        <Icon name="sparkle" className="h-4 w-4" /> Clean up with AI
       </button>
     );
   }

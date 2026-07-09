@@ -16,7 +16,8 @@ export interface Group {
   id: string;
   name: string;
   type: GroupType;
-  emoji: string;
+  /** @deprecated Vestigial. Group identity is a monogram (see GroupAvatar); never rendered. */
+  emoji?: string;
   inviteCode: string;
   members: Address[];
   marketIds: number[];
@@ -26,7 +27,6 @@ export interface Group {
 export interface CreateGroupInput {
   name: string;
   type: GroupType;
-  emoji: string;
   creator: Address;
 }
 
@@ -115,7 +115,6 @@ class LocalStorageGroupStore implements GroupStore {
       id: genId(),
       name: input.name.trim(),
       type: input.type,
-      emoji: input.emoji,
       inviteCode: code,
       members: [input.creator],
       marketIds: [],

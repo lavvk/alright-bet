@@ -16,6 +16,7 @@ import { Badge } from "@/components/ui/Badge";
 import { ProbabilityBar } from "@/components/ui/ProbabilityBar";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { Icon } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/Button";
 import {
   formatEth,
@@ -57,7 +58,7 @@ export default function MarketPage() {
     return (
       <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
         <EmptyState
-          icon="🔍"
+          icon={<Icon name="search" />}
           title="Market not found"
           description={`No on-chain market #${id} exists.`}
           action={<LinkButton href="/">Back to trending</LinkButton>}
@@ -81,9 +82,7 @@ export default function MarketPage() {
           <div className="flex flex-wrap items-center gap-2">
             {group ? (
               <Link href={`/groups/${group.id}`}>
-                <Badge tone="accent">
-                  {group.emoji} {group.name}
-                </Badge>
+                <Badge tone="accent">{group.name}</Badge>
               </Link>
             ) : (
               <Badge tone="accent">Group market</Badge>
@@ -99,7 +98,7 @@ export default function MarketPage() {
             )}
           </div>
 
-          <h1 className="mt-3 text-2xl font-bold leading-tight tracking-tight sm:text-3xl">
+          <h1 className="mt-3 display-hero text-3xl sm:text-4xl">
             {market.question}
           </h1>
 
@@ -107,14 +106,14 @@ export default function MarketPage() {
           <Card className="mt-6 p-5">
             <div className="flex items-end justify-between">
               <div>
-                <p className="text-sm font-medium text-yes">Yes</p>
-                <p className="text-3xl font-bold text-yes tabular">
+                <p className="text-xs font-medium uppercase tracking-wide text-yes">Yes</p>
+                <p className="font-display text-4xl font-bold leading-none text-yes tabular">
                   {noVolume ? "—" : formatPercent(yes)}
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-sm font-medium text-no">No</p>
-                <p className="text-3xl font-bold text-no tabular">
+                <p className="text-xs font-medium uppercase tracking-wide text-no">No</p>
+                <p className="font-display text-4xl font-bold leading-none text-no tabular">
                   {noVolume ? "—" : formatPercent(1 - yes)}
                 </p>
               </div>
