@@ -1,0 +1,9 @@
+# Node dependencies
+node_modules/
+.next/
+out/
+
+# Foundry / Solidity artifacts
+cache/
+out/
+.env
