@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
 import { toast } from "sonner";
@@ -11,6 +11,7 @@ import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button, LinkButton } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { Skeleton } from "@/components/ui/Skeleton";
 import { Icon } from "@/components/ui/icons";
 import { GroupAvatar } from "@/components/ui/GroupAvatar";
 
@@ -25,6 +26,18 @@ export default function JoinPage() {
     () => groupStore.getByInviteCode(code),
     [code],
   );
+
+  // localStorage is unavailable during SSR — gate on mount so the invite lookup
+  // doesn't hydrate-mismatch (server "not found" vs client found).
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) {
+    return (
+      <div className="mx-auto max-w-lg px-4 py-12 sm:px-6">
+        <Skeleton className="h-72 w-full rounded-2xl" />
+      </div>
+    );
+  }
 
   const alreadyMember =
     !!address &&
